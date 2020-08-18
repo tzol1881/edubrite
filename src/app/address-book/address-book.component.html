@@ -1,0 +1,79 @@
+<header>
+    <nav><app-navbar (showAddContact) = 'showAddContact =$event'></app-navbar></nav>
+</header>
+
+<section>
+<div class='search-addressBook'>
+    <div class='row'>
+        <div class="col span-1-of-3">
+            <select [(ngModel)]='sortBy' (change)='setSortBy()'>
+                <option value='firstName'><i class="fa fa-sort" aria-hidden="true"></i>Sort By First Name</option>
+                <option value='lastName'><i class="fa fa-sort" aria-hidden="true"></i>Sort By Last Name</option>
+                <option value='birthDate'><i class="fa fa-sort" aria-hidden="true"></i>Sort By Birth Date</option>
+            </select>
+        </div>
+        <div class="col span-1-of-3">
+            <button class='toggle-button' (click)="view === 'tile' ? view = 'list': view = 'tile'">{{view === 'tile' ? 'List View' : 'Tile View'}}</button>
+        </div> 
+        <div class="col span-1-of-3">
+            <input type='text' [(ngModel)]='filter' class="fa-placholder" placeholder="&#xF002;">
+        </div>        
+    </div>
+</div>
+<ng-container *ngFor ="let addressBook of addressBook | async | search:filter | sort:sortBy">
+        <div class="addressBook" *ngIf="view === 'tile'">
+            <div class="row">
+                <div class="col span-2-of-3 addressBook-content">
+                    {{addressBook.firstName}} {{addressBook.lastName}}<br>
+                    {{addressBook.contactNo[0]}} <span *ngIf='addressBook.contactNo.length -1 > 0'>(more {{addressBook.contactNo.length -1 }})</span> <br>
+                    {{addressBook.email[0]}} <span *ngIf='addressBook.email.length -1 > 0'>(more {{addressBook.email.length -1 }})</span> <br>
+                </div>
+                <span class="action-bar-delete" (click)="deleteContact(addressBook.contactId)"><i class="fa fa-times"></i></span>
+                <div class="col span-1-of-3 action-bar-column"><br><br><br>
+                    <span class="action-bar"><i class="fa fa-edit action-bar-icons edit-icon" aria-hidden="true" (click)="editContact(addressBook)"></i><i class="fa fa-eye action-bar-icons view-icon" aria-hidden="true" (click)="viewContact=true;selectedContact=addressBook;"></i> <i class="fa fa-at action-bar-icons" aria-hidden="true"></i> <i class="fa fa-phone action-bar-icons" aria-hidden="true"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="addressBook-list" *ngIf="view === 'list'">
+            <div class="row">
+                <div class="col span-2-of-3 addressBook-content">
+                    {{addressBook.firstName}} {{addressBook.lastName}}<br>
+                    {{addressBook.contactNo[0]}} <span *ngIf='addressBook.contactNo.length -1 > 0'>(more {{addressBook.contactNo.length -1 }})</span> <br>
+                    {{addressBook.email[0]}} <span *ngIf='addressBook.email.length -1 > 0'>(more {{addressBook.email.length -1 }})</span> <br>
+                </div>
+                <div class="col span-1-of-3 action-bar-column-list"><span class="action-bar"><i class="fa fa-eye view-icon" aria-hidden="true"></i>&nbsp; | &nbsp;<i class="fa fa-at" aria-hidden="true"></i> &nbsp; | &nbsp;<i class="fa fa-phone" aria-hidden="true"></i></span><br><br><br>
+                    <span class="action-bar"><button (click)="editContact(addressBook)">Edit</button>&nbsp;<button (click)="deleteContact(addressBook.contactId)">Delete</button></span> 
+                </div>
+            </div>
+        </div>
+</ng-container>
+
+<ng-container *ngFor ="let addressBook of addressBook | async | search:filter | sort:sortBy">
+    
+</ng-container>
+
+<div class='row'>
+    <div class='add-contact' *ngIf='showAddContact'>
+        <div class='add-contact-header'>
+            <div class='header-title'><span style="color:#45b6fe">Add</span><span style="color:#72c02c"> Contact</span></div>
+            <div class='close-button' (click)="showAddContact=false;contactForEdit=null"><i class="fa fa-times"></i></div>
+        </div>
+        <app-add-contact (hideAddContact)="showAddContact=$event;contactForEdit=null" [contactForEdit] = 'contactForEdit'></app-add-contact>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='add-contact' *ngIf='viewContact'>
+        <div class='add-contact-header'>
+            <div class='header-title'><span style="color:#45b6fe">View</span><span style="color:#72c02c"> Contact</span></div>
+            <div class='close-button' (click)="viewContact=false;selectedContact=null"><i class="fa fa-times"></i></div>
+        </div>
+        <app-view-contact [contact] = 'selectedContact'></app-view-contact>
+    </div>
+</div>
+</section>
+
+<footer>
+    © Copyright 2020 Edubrite Inc. All Rights Reserved.
+</footer>

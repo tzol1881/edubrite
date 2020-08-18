@@ -1,0 +1,21 @@
+<div class="row navbar">
+    <img  class="nav-logo" src='../../assets/logo.png' alt='logo'>
+    <ul class="main-nav">
+        <li>Address Book</li>
+        <li (click)="showAddContact.emit(true)">Add Contact</li>
+        <li (click)="logout()">Logout</li>
+    </ul>
+
+    <ul class="main-nav-mobile" *ngIf="!mobileMenu">
+        <li>Address Book</li>
+        <li (click)="showAddContact.emit(true)">Add Contact</li>
+        <li (click)="logout()">Logout</li>
+    </ul>
+    <div class="mobile-menu" *ngIf="mobileMenu" (click)="mobileMenu=false">
+        <i class="fa fa-bars"></i>
+      </div>
+      
+      <div class="mobile-menu" *ngIf="!mobileMenu" (click)="mobileMenu=true">
+        <i class="fa fa-times"></i>
+      </div>
+</div>

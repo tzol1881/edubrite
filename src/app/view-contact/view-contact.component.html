@@ -1,0 +1,33 @@
+<div class='row'>
+    <div class='col span-1-of-3 label'><label>First Name:</label></div>
+    <div class='col span-2-of-3 labelValue'>{{contact.firstName}}</div>
+</div>
+
+<div class='row'>
+    <div class='col span-1-of-3 label'>Last Name:</div>
+    <div class='col span-2-of-3 labelValue'>{{contact.lastName}}</div>
+</div>
+
+<div class='row'>
+    <div class='col span-1-of-3 label'>Contact Type:</div>
+    <div class='col span-2-of-3 labelValue'>{{contact.contactType}}</div>
+</div>
+
+<ng-container *ngFor="let contacts of contact.contactNo; let i=index">
+    <div class='row' >
+        <div class='col span-1-of-3 label'><label>Contact No. {{i + 1}}:</label></div>
+        <div class='col span-2-of-3 labelValue'>{{contacts}}</div>
+    </div>
+</ng-container>
+
+<ng-container *ngFor="let emails of contact.email; let i=index">
+    <div class='row' >
+        <div class='col span-1-of-3 label'><label>Email {{i + 1}}:</label></div>
+        <div class='col span-2-of-3 labelValue'>{{emails}}</div>
+    </div>
+</ng-container>
+
+<div class='row'>
+    <div class='col span-1-of-3 label'><label>Birth Date:</label></div>
+    <div class='col span-2-of-3 labelValue'>{{contact.birthDate}}</div>
+</div>

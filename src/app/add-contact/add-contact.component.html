@@ -1,0 +1,101 @@
+
+<form [formGroup]='addContact' (ngSubmit)='onSubmit()'>
+    <div class='row'>
+        <div class='col span-1-of-3 label'><label for='firstName'>First Name *</label></div>
+        <div class='col span-2-of-3'>
+            <input type='text' formControlName='firstName' id='firstName'>
+            <div class='row error' *ngIf="addContact.controls.firstName.touched && addContact.controls.firstName.invalid">
+                Please enter your first name.
+            </div>
+            <div class='row error' *ngIf="addContact.controls.firstName.touched && addContact.controls.firstName.errors?.maxLength">
+                First name should not be greater than 24 characters.
+            </div>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col span-1-of-3 label'><label for='lastName'>Last Name *</label></div>
+        <div class='col span-2-of-3'>
+            <input type='text' formControlName='lastName' id='lastName'>
+            <div class='row error' *ngIf="addContact.controls.lastName.touched && addContact.controls.lastName.invalid">
+                Please enter your last name.
+            </div>
+            <div class='row error' *ngIf="addContact.controls.lastName.touched && addContact.controls.lastName.errors?.maxLength">
+                Last name should not be greater than 24 characters.
+            </div>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col span-1-of-3 label'><label for='contactType'>Contact type *</label></div>
+        <div class='col span-2-of-3'> 
+            <select formControlName='contactType' id='contactType'>
+                <option value='home'>Home</option>
+                <option value='office'>Office</option>
+                <option value='personal'>Personal</option>
+            </select>
+        </div>
+    </div>
+
+    <ng-container formArrayName = 'contactNo' *ngFor="let contact of contactNo.controls; let i=index">
+        <div class='row' >
+            <div class='col span-1-of-3 label'><label>Contact No. {{i + 1}}:</label></div>
+            <div class='col span-2-of-3'>
+                <input type="text" [formControlName]="i">
+            </div>
+        </div>
+        <div class='row error' *ngIf="contactNo.controls[i].touched && contactNo.controls[i].errors?.minlength">
+            Minimum length should be 13.
+        </div>
+    </ng-container>
+    <div class='row error' *ngIf="contactNo.controls[0].touched && contactNo.controls[0].errors?.required">
+        Please add 1st contact number.
+    </div>
+
+    <div class='row' >
+        <div class='col span-1-of-3 label'>&nbsp;</div>
+        <div class='col span-2-of-3'>
+            <button type="button" (click)="addContactNo()">Add more contacts</button>
+        </div>
+    </div>
+
+    <ng-container formArrayName = 'email' *ngFor="let emails of email.controls; let i=index">
+        <div class='row' >
+            <div class='col span-1-of-3 label'><label>Email {{i + 1}}:</label></div>
+            <div class='col span-2-of-3'>
+                <input type="text" [formControlName]="i">
+            </div>
+        </div>
+        <div class='row error' *ngIf="email.controls[i].touched && email.controls[i].errors?.email">
+           Please enter valid email id.
+        </div>
+    </ng-container>
+
+    <div class='row error' *ngIf="email.controls[0].touched && email.controls[0].errors?.required">
+        Please add 1st email id.
+    </div>
+
+    <div class='row' >
+        <div class='col span-1-of-3 label'>&nbsp;</div>
+        <div class='col span-2-of-3'>
+            <button type="button" (click)="addEmail()">Add more emails</button>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col span-1-of-3 label'><label for='birthDate'>Birth Date *</label></div>
+        <div class='col span-2-of-3'> 
+            <input type='date' formControlName='birthDate' id='birthDate'>
+        </div>
+        <div class='row error' *ngIf="addContact.controls.birthDate.touched && !addContact.controls.birthDate.valid">
+            Please enter you birth date
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col span-1-of-3 label'>&nbsp;</div>
+        <div class='col span-2-of-3'> 
+            <button type='submit' [disabled]='!addContact.valid'>{{contactForEdit ? 'Save' : 'Add'}}</button>
+        </div>
+    </div>
+</form>
